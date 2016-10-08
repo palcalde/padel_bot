@@ -5,11 +5,12 @@ module Canal
     end
 
     def handle_command(args_a=nil, reply)
-      payload = Payload.get_sample_payload
-      resp = @network_manager.available(payload)
-      if resp
+      resp = @network_manager.available(Time.now)
+      if resp.status == 200
         reply.text = "Available! book it here: " + resp.requested_url
-      else
+      elsif response.status == 303
+        reply.text = "Not available :("
+      elsif resp == nil
         reply.text = "Network problems.. maybe try to log in first?"
       end
       { reply: reply, force_reply: false }

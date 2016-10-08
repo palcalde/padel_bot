@@ -1,0 +1,73 @@
+ ** Actions **
+lookup - search for days avail on a given time
+reserve - Make
+cancel - cancel current reminder
+reminder - show current reminder
+
+ ** Plan **
+
+On bot init, request to log in to get cookie
+
+- Bot requests https://www.mypadel.com/booking/resumen?m=<info_hash>
+	a - Day of date is > 6 days ahead -> set reminder
+	b - Request returned 303 -> not available
+	c - Request returned 200 -> available, BOT returns this url to the user
+
+If c:
+1 - User taps on URL. Logs in. Pay.
+
+ ** Conversation sample **
+
+- Javi: /lookup
+- Bot FR: Hey Javi! give me a time, like 18:00, and I'll let u know what days are available
+- Javi: 19:00
+- Bot: Cool, let me see..
+- Bot: I'm back.. these days are available at 19:00: 
+		- Saturday 24/09/16
+		- Tuesday 27/09/16 
+		- Thursday 29/09/16
+
+-----------------------------------
+- Javi: /reserve 27/09/16 19:00
+- Bot: Done! You can pay it here: www.padelcanal.com/qewr2d432dar33/book/reservation/id?.aspx
+-----------------------------------
+
+- Javi: /reserve
+- Bot FR: What day? e.x 27/09/16
+- Javi: 27/09/16
+- Bot FR: What time?
+- Javi: 19:00
+- Bot: Done! You can pay it here: www.padelcanal.com/qewr2d432dar33/book/reservation/id?.aspx
+
+-----------------------------------
+- Javi: /reserve 30/09/16 19:00
+- Bot: Done. Reminder created for 30/09/16 at 19:00.
+... 3 days later ...
+- Bot: Javi, I've just reserved 30/09/16 at 18:30. Pay it here: www.padelcanal.com/qewr2d432dar33/book/reservation/id?.aspx
+-----------------------------------
+- Javi: /reminder
+- Bot: I've a reminder for Wednesday 30/09/16 at 18:30
+-----------------------------------
+- Javi: /reminder
+- Bot: I don't have any date set.
+
+ ** Commands ** (only apply when there is no state machine active)
+
+- Javi: /cancel
+- Bot: All clear.
+ -----------------------------------
+- Bot: Ok, reminder for 20/04/2016 18:00 cancelled.
+ -----------------------------------
+- Javi: /reserve 27/09/16
+- Bot: Dunno what u mean. A valid command would be '/reserve 01/03/16 18:30'
+- Javi: /reserve 27/09/16 18:00
+- Bot: Sorry, not available :(
+- Javi: /reserve 27/09/16 18:30
+- Bot: Sorry, not available :(
+- Javi: /reserve 27/09/16 19:00
+- Bot: Available! Pay it here: www.padelcanal.com/qewr2d432dar33/book/reservation/id?.aspx
+
+
+
+
+

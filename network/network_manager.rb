@@ -30,10 +30,13 @@ module Canal::Network
       }.inject(:merge)
     end
 
-    def available(query)
-      return unless query && @cookies[AUTH_COOKIE]
-      p "query is #{query}"
-      encoded_query = Base64.strict_encode64(query.to_json)
+    def available(date)
+      return unless date.is_a?(Time) && @cookies[AUTH_COOKIE]
+      p "Triggering 'available' request for date .. #{date}"
+      payload = Payload.get_sample_payload
+      payload[:date] = date.year_month_day
+      payload[:time] = date.minutes_seconds
+      encoded_query = Base64.strict_encode64(payload.to_json)
       path = "/booking/resumen"
       query = { m: encoded_query }
       cookie = AUTH_COOKIE + '=' + @cookies[AUTH_COOKIE]

@@ -47,8 +47,8 @@ bot.get_updates(fail_silently: true) do |message|
     when '/cancel'
       reply.text = "Ok, all cancelled!"
       pending_action = nil
-      action_handlers.each do |action, handler|
-        handler.cancel
+      action_handlers.each do |_action, _handler|
+        _handler.cancel
       end
     when '/lookup'
       p "sending lookup args #{args}"
