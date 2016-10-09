@@ -57,14 +57,16 @@ module Canal
       return unless date
       if date.to_date < Date.today
         reply.text = "\n\n Whoops! Date should be after today"
-      elsif date.to_date >= Date.today.next_day(6)
-        reply.text = "\n\n I can only book for the next 6 days. Maybe set a reminder?"
       else
         resp = @network_manager.available(date)
         if resp.status == 200
           reply.text << "\n\nAvailable! book it here: " + resp.requested_url
         elsif resp.status == 303
-          reply.text << "\n\nNot available :("
+          if date.to_date >= Date.today.next_day(7)
+            reply.text = "\n\n I can only book for the next 6 days. Maybe set a reminder?"
+          else
+            reply.text << "\n\nNot available :("
+          end
         elsif resp == nil
           reply.text << "\n\nNetwork problems.. maybe try to log in first?"
         end
