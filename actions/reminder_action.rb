@@ -1,7 +1,7 @@
 module Canal
   class ReminderAction
-    def initialize(network_manager)
-      @network_manager = network_manager
+    def initialize(api_handler)
+      @api_handler = api_handler
       @date = nil
     end
 
@@ -14,7 +14,7 @@ module Canal
           reply.text = "No reminder yet, use /reminder to set up one"
         end
       elsif args_a.count == 2
-        if @date = Parser.parse_date_and_time(args_a[0], args_a[1])
+        if @date = DateParser.parse_date_and_time(args_a[0], args_a[1])
           reply.text = "Reminder setted to #{@date}"
         else
           reply.text = "Wrong date format, try again please"

@@ -1,5 +1,5 @@
  ** Actions **
-lookup - search for days avail on a given time
+search - search for days avail on a given time
 reserve - Make
 cancel - cancel current reminder
 reminder - show current reminder
@@ -18,7 +18,7 @@ If c:
 
  ** Conversation sample **
 
-- Javi: /lookup
+- Javi: /search
 - Bot FR: Hey Javi! give me a time, like 18:00, and I'll let u know what days are available
 - Javi: 19:00
 - Bot: Cool, let me see..

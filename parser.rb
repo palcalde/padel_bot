@@ -1,4 +1,4 @@
-class Parser
+class DateParser
   class << self
     # date is a string separated by /
     # time is a string separated by :

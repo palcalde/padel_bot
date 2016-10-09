@@ -3,13 +3,12 @@ require 'virtus'
 require 'json'
 require 'base64'
 
-module Canal::Network
+module Canal
   class NetworkManager
     AUTH_COOKIE = "sfxSession"
 
     def initialize(opts = {})
       p "initialized canal network manager"
-      @logger = opts[:logger]
       @connection = Excon.new('https://www.mypadel.com', proxy: opts[:proxy])
       @cookies = Hash.new
       log_in
