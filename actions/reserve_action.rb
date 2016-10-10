@@ -9,6 +9,7 @@ module Canal
     def handle_command(args_a=nil, reply)
       return {} unless args_a && reply
       puts "args are #{args_a}"
+      reply.text = ""
       case @state
       when :init
         if args_a.count == 0
@@ -43,9 +44,9 @@ module Canal
         puts "date with time is #{@date}"
         if @date
           @state = :init
-          reply.text = "Cool, booking date #{@date.full_date_string} ..."
           msg_h = @api_handler.book_date(@date)
-          reply.text << "\n\n " + msg_h.values.first
+          reply.text << "\n\n #{@date.full_date_string}: "
+          reply.text << msg_h.values.first if msg_h
         else
           reply.text = "Wrong format, try again"
         end

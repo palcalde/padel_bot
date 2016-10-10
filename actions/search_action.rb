@@ -21,14 +21,16 @@ module Canal
     def find_availability(time_s, reply)
       date = Date.today
       limit_date = Date.today.next_day(7)
+      found_str = ""
       while date < limit_date
         date_t = DateParser.parse_date_and_time(date.strftime("%d-%m-%Y"), time_s)
         if date_t
           msg_h = @api_handler.book_date(date_t)
-          reply.text << "\n\n #{date_t.full_date_string}: " + msg_h[:ok] if msg_h[:ok]
+          found_str << "\n\n #{date_t.full_date_string}: " + msg_h[:ok] if msg_h[:ok]
           date = date.next_day
         end
       end
+      reply.text = found_str.empty? ? "No available dates" : found_str + "\n\n ---"
     end
 
     def cancel

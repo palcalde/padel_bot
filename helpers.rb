@@ -25,14 +25,3 @@ class Time
     self.strftime("%d-%m-%Y at %H:%M")
   end
 end
-
-module TelegramBot
-  class MessageEntity
-    include Virtus.model
-    attribute :type, String
-    attribute :offset, Integer
-    attribute :length, Integer
-    attribute :url, String
-    attribute :user, String
-  end
-end

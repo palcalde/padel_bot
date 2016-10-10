@@ -18,7 +18,7 @@ module Canal
           else
             {error:"Not available :("}
           end
-        elsif resp == nil
+        else
             {error:"Network problems :/"}
         end
       end

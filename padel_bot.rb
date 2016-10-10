@@ -9,6 +9,8 @@ require_relative 'network/network_manager'
 require_relative 'parser'
 require_relative 'payload'
 require_relative 'helpers'
+require_relative 'lib/telegram_bot/force_reply'
+require_relative 'lib/telegram_bot/out_message'
 
 include Canal
 
@@ -60,9 +62,10 @@ bot.get_updates(fail_silently: true) do |message|
 
     reply.parse_mode = 'Markdown'
     multiple_resp = reply.text.split("\n\n")
+    # Divide msgs and send them separatelly
     multiple_resp.each do |msg|
-      p "Sending message"
       reply.text = msg
+      reply.reply_markup = TelegramBot::ForceReply.new if pending_action
       reply.send_with(bot)
     end
   end
