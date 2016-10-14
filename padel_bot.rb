@@ -15,8 +15,9 @@ require_relative 'lib/telegram_bot/out_message'
 include Canal
 
 logger = Logger.new(STDOUT, Logger::DEBUG)
+PROXY_ENABLED = false
 
-proxy = 'http://127.0.0.1:8888'
+proxy = 'http://127.0.0.1:8888' if PROXY_ENABLED
 Excon.defaults[:ssl_verify_peer] = false
 
 bot = TelegramBot.new(token: ENV['PADEL_BOT'], logger: logger, proxy: proxy)
@@ -38,6 +39,8 @@ bot.get_updates(fail_silently: true) do |message|
   args = pending_action ? command.split : command.split.drop(1)
   message.reply do |reply|
     case action
+    when '/start'
+      reply.text = "What's up guys, I'm here to serve you. Type the backslash '/' to see what I can do!"
     when '/reserve'
       p "sending reserve args #{args}"
       r = action_handlers[:reserve].handle_command(args, reply)
@@ -62,7 +65,7 @@ bot.get_updates(fail_silently: true) do |message|
 
     reply.parse_mode = 'Markdown'
     multiple_resp = reply.text.split("\n\n")
-    # Divide msgs and send them separatelly
+    # Divide msg and send them separatelly
     multiple_resp.each do |msg|
       reply.text = msg
       reply.reply_markup = TelegramBot::ForceReply.new if pending_action

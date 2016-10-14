@@ -1,8 +1,9 @@
  ** Actions **
-search - search for days avail on a given time
-reserve - Make
-cancel - cancel current reminder
-reminder - show current reminder
+start - greeting
+search  - search avail. days for a given time
+reserve  - reserve with date and time 
+cancel - cancel all current actions
+reminder - bot will let you know when that date is avail.
 
  ** Plan **
 
