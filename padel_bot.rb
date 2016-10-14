@@ -60,12 +60,15 @@ bot.get_updates(fail_silently: true) do |message|
       r = action_handlers[:search].handle_command(args, reply)
       pending_action = r[:force_reply] ? '/search' : nil
     else
-      reply.text = "Uhmm.. dunno what u mean :/"
+      if action
+        reply.text = "Uhmm.. dunno what u mean :/" unless !action
+      else
+        reply.text = ""
+      end
     end
 
     reply.parse_mode = 'Markdown'
-    multiple_resp = reply.text.split("\n\n")
-    # Divide msg and send them separatelly
+    multiple_resp = reply.text.split("\n\n")    # Divide msg and send them separatelly
     multiple_resp.each do |msg|
       reply.text = msg
       reply.reply_markup = TelegramBot::ForceReply.new if pending_action
