@@ -19,7 +19,7 @@ module Canal
       if args_a.count == 0
         p "args are 0"
         if @date
-          reply_text = "Your reminder is #{@date}"
+          reply_text = "Your reminder is #{@date.full_date_string}"
         else
           reply_text = "No reminder yet, use something like '/reminder 26/10/16 18:00' to set up one"
         end

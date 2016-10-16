@@ -1,9 +1,8 @@
  ** Actions **
-start - greeting
-search  - search avail. days for a given time
-reserve  - reserve with date and time 
-cancel - cancel all current actions
+search  - search avail. days for a given hour
+reserve  - reserve with date and hour 
 reminder - bot will let you know when that date is avail.
+cancel - cancel all current actions
 
  ** Plan **
 

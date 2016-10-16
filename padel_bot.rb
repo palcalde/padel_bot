@@ -97,7 +97,7 @@ bot.get_updates_with_timeout({fail_silently: true}, timeout_block) do |message|
     multiple_resp.each do |msg|
       reply.text = msg
       reply.reply_markup = TelegramBot::ForceReply.new if pending_action
-      reply.reply_to = message
+      reply.reply_to = message if pending_action
       reply.send_with(bot)
     end
   end
