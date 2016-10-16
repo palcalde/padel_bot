@@ -9,20 +9,20 @@ module Canal
     def handle_command(args_a=nil, reply)
       return {} unless args_a && reply
       puts "args are #{args_a}"
-      reply.text = ""
+      reply_text = ""
       case @state
       when :init
         if args_a.count == 0
           @state = :date
-          reply.text = "Ok! give me a date!"
+          reply_text = "Ok! give me a date!"
         elsif args_a.count == 2
           @date = DateParser.parse_date_and_time(args_a[0], args_a[1])
           if @date
-            reply.text = "Cool, booking date #{@date.full_date_string} ... "
+            reply_text = "Cool, booking date #{@date.full_date_string} ... "
             msg_h = @api_handler.book_date(@date)
-            reply.text << "\n\n " + msg_h.values.first
+            reply_text << "\n\n " + msg_h.values.first
           else
-            reply.text = "Wrong format, try again"
+            reply_text = "Wrong format, try again"
           end
         end
       when :date
@@ -34,9 +34,9 @@ module Canal
         if date
           @date = args_a[0]
           @state = :time
-          reply.text = "Ok.. what time?"
+          reply_text = "Ok.. what time?"
         else
-          reply.text = "Wrong format, try again"
+          reply_text = "Wrong format, try again"
         end
       when :time
         time = args_a[0]
@@ -45,15 +45,15 @@ module Canal
         if @date
           @state = :init
           msg_h = @api_handler.book_date(@date)
-          reply.text << "\n\n #{@date.full_date_string}: "
-          reply.text << msg_h.values.first if msg_h
+          reply_text << "\n\n #{@date.full_date_string}: "
+          reply_text << msg_h.values.first if msg_h
         else
-          reply.text = "Wrong format, try again"
+          reply_text = "Wrong format, try again"
         end
       end
 
       force_reply = @state != :init
-      {reply: reply, force_reply: force_reply}
+      {reply: reply_text, force_reply: force_reply}
     end
 
 

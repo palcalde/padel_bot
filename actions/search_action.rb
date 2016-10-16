@@ -6,16 +6,17 @@ module Canal
 
     def handle_command(args_a=nil, reply)
       return {} unless args_a && reply
+      reply_text = ""
       time_s = args_a.first
       force_reply = false
       if time_s
-        reply.text = "Searching available dates.."
-        find_availability(time_s, reply)
+        reply_text = "Searching available dates.."
+        reply_text << find_availability(time_s, reply)
       else
-        reply.text = "Cool, give me a time"
+        reply_text = "Cool, give me a time"
         force_reply = true
       end
-      { reply: reply, force_reply: force_reply }
+      { reply: reply_text, force_reply: force_reply }
     end
 
     def find_availability(time_s, reply)
@@ -30,7 +31,7 @@ module Canal
           date = date.next_day
         end
       end
-      reply.text = found_str.empty? ? "No available dates" : found_str + "\n\n ---"
+      reply_text = found_str.empty? ? "No available dates" : found_str + "\n\n ---"
     end
 
     def cancel
