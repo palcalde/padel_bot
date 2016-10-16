@@ -4,6 +4,7 @@ module TelegramBot
     attribute :chat, Channel
     attribute :force_reply, Boolean
     attribute :text, String
+    attribute :selective, Boolean
 
     def chat_friendly_name
       ""
@@ -14,7 +15,7 @@ module TelegramBot
     end
 
     def to_h
-      {force_reply: true}
+      {force_reply: true, selective: true}
     end
   end
 

@@ -45,7 +45,7 @@ module Canal
         if @date
           @state = :init
           msg_h = @api_handler.book_date(@date)
-          reply_text << "\n\n #{@date.full_date_string}: "
+          reply_text << "\n\n #{@date.full_date_string} "
           reply_text << msg_h.values.first if msg_h
         else
           reply_text = "Wrong format, try again"

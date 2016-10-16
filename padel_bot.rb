@@ -10,6 +10,7 @@ require_relative 'parser'
 require_relative 'payload'
 require_relative 'helpers'
 require_relative 'lib/telegram_bot/force_reply'
+require_relative 'lib/telegram_bot/bot'
 require_relative 'lib/telegram_bot/out_message'
 
 include Canal
@@ -56,6 +57,7 @@ bot.get_updates_with_timeout({fail_silently: true}, timeout_block) do |message|
   pending_action = nil if command.split.first == '/cancel'
   action = pending_action ? pending_action : command.split.first
   args = pending_action ? command.split : command.split.drop(1)
+  p "message received #{message.id}"
   message.reply do |reply|
     reply.text = ""
     case action
@@ -95,6 +97,7 @@ bot.get_updates_with_timeout({fail_silently: true}, timeout_block) do |message|
     multiple_resp.each do |msg|
       reply.text = msg
       reply.reply_markup = TelegramBot::ForceReply.new if pending_action
+      reply.reply_to = message
       reply.send_with(bot)
     end
   end
