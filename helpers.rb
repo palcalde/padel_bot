@@ -22,7 +22,7 @@ class Time
   end
 
   def full_date_string
-    self.strftime("%d-%m-%Y at %H:%M")
+    self.strftime("%A %d-%m-%Y at %H:%M")
   end
 end
 
