@@ -14,7 +14,7 @@ module Canal
       when :init
         if args_a.count == 0
           @state = :date
-          reply_text = "Ok! give me a date!"
+          reply_text = "Ok! give me a date! Like '18/10/16' or only the day like '18'"
         elsif args_a.count == 2
           @date = DateParser.parse_date_and_time(args_a[0], args_a[1])
           if @date
@@ -34,7 +34,7 @@ module Canal
         if date
           @date = args_a[0]
           @state = :time
-          reply_text = "Ok.. what time?"
+          reply_text = "Ok.. what hour?"
         else
           reply_text = "Wrong format, try again"
         end

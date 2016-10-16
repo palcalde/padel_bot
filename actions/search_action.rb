@@ -13,7 +13,7 @@ module Canal
         reply_text = "Searching available dates.."
         reply_text << find_availability(time_s, reply)
       else
-        reply_text = "Cool, give me a time"
+        reply_text = "Cool, give me an hour like '18:30' or '17'"
         force_reply = true
       end
       { reply: reply_text, force_reply: force_reply }

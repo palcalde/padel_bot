@@ -21,7 +21,7 @@ module Canal
         if @date
           reply_text = "Your reminder is #{@date}"
         else
-          reply_text = "No reminder yet, use /reminder to set up one"
+          reply_text = "No reminder yet, use something like '/reminder 26/10/16 18:00' to set up one"
         end
       elsif args_a.count == 2
         if date = DateParser.parse_date_and_time(args_a[0], args_a[1])
