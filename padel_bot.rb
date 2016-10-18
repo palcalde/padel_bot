@@ -45,7 +45,7 @@ timeout_block = Proc.new {
       reply.send_with(bot)
       action_handlers[:reminder].cancel
     else
-      p "Reminder #{date} is still not bookable"
+      p "Reminder #{date.to_date} is still not bookable at #{Date.today.next_day(7)}"
     end
   end
 }
