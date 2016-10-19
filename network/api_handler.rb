@@ -14,7 +14,7 @@ module Canal
           {ok: "[Available!](#{resp.requested_url})"}
         elsif resp.status == 303
           p "comparing #{date.to_date} with #{Date.today.next_day(7)}"
-          if date.to_date >= Date.today.next_day(7)
+          if date.to_date > Date.today.next_day(7)
             {error: "Can't check that date yet. Maybe set a reminder?"}
           else
             {error:"Not available :("}
