@@ -1,5 +1,5 @@
 module Canal
-  class SearchAction
+  class FindAction
     def initialize(api_handler)
       @api_handler = api_handler
     end
@@ -25,14 +25,13 @@ module Canal
       found_str = ""
       while date < limit_date
         date_t = DateParser.parse_date_and_time(date.strftime("%d-%m-%Y"), time_s)
-        if date_t
-          msg_h = @api_handler.book_date(date_t)
-          if msg_h[:ok]
-            found_str << ', ' if !found_str.empty?
-            found_str << "#{date_t.full_date_string}: " + msg_h[:ok]
-          end
-          date = date.next_day
+        break unless date_t
+        msg_h = @api_handler.check_date(date_t)
+        if msg_h[:ok]
+          found_str << ', ' if !found_str.empty?
+          found_str << "#{date_t.full_date_string}: " + msg_h[:ok]
         end
+        date = date.next_day
       end
       found_str.empty? ? "No available dates" : found_str + "\n\n ---"
     end

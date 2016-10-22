@@ -1,9 +1,10 @@
 require 'telegram_bot'
 require 'pp'
 require 'logger'
-require_relative 'actions/reserve_action'
-require_relative 'actions/search_action'
+require_relative 'actions/check_action'
+require_relative 'actions/find_action'
 require_relative 'actions/reminder_action'
+require_relative 'actions/reserve_action'
 require_relative 'network/api_handler'
 require_relative 'network/network_manager'
 require_relative 'parser'
@@ -16,7 +17,7 @@ require_relative 'lib/telegram_bot/out_message'
 include Canal
 
 logger = Logger.new(STDOUT, Logger::DEBUG)
-PROXY_ENABLED = false
+PROXY_ENABLED = true
 
 proxy = 'http://127.0.0.1:8888' if PROXY_ENABLED
 Excon.defaults[:ssl_verify_peer] = false
@@ -24,8 +25,9 @@ Excon.defaults[:ssl_verify_peer] = false
 bot = TelegramBot.new(token: ENV['PADEL_BOT'], logger: logger, proxy: proxy)
 
 api_handler = ApiHandler.new(proxy: proxy)
-action_handlers = { reserve: ReserveAction.new(api_handler),
-                    search: SearchAction.new(api_handler),
+action_handlers = { check: CheckAction.new(api_handler),
+                    reserve: ReserveAction.new(api_handler),
+                    find: FindAction.new(api_handler),
                     reminder: ReminderAction.new(api_handler) }
 
 logger.debug "starting telegram bot"
@@ -63,6 +65,11 @@ bot.get_updates_with_timeout({fail_silently: true}, timeout_block) do |message|
     case action
     when '/start'
       reply.text = "What's up guys, I'm here to serve you. Type the backslash '/' to see what I can do!"
+    when '/check'
+      p "sending check args #{args}"
+      r = action_handlers[:check].handle_command(args, reply)
+      reply.text << r[:reply]
+      pending_action = r[:force_reply] ? '/check' : nil
     when '/reserve'
       p "sending reserve args #{args}"
       r = action_handlers[:reserve].handle_command(args, reply)
@@ -79,11 +86,14 @@ bot.get_updates_with_timeout({fail_silently: true}, timeout_block) do |message|
       action_handlers.each do |_action, _handler|
         _handler.cancel
       end
-    when '/search'
+    when '/find'
       p "sending search args #{args}"
-      r = action_handlers[:search].handle_command(args, reply)
+      r = action_handlers[:find].handle_command(args, reply)
       reply.text << r[:reply]
-      pending_action = r[:force_reply] ? '/search' : nil
+      pending_action = r[:force_reply] ? '/find' : nil
+
+    when '/whowillwin'
+      reply.text << "Pablo and Javi, of course!"
     else
       if action
         reply.text = "Uhmm.. dunno what u mean :/" unless !action

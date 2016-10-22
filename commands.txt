@@ -1,8 +1,9 @@
  ** Actions **
-search  - search avail. days for a given hour
-reserve  - reserve with date and hour 
-reminder - bot will let you know when that date is avail.
-cancel - cancel all current actions
+reserve - pay and reserver automatically, '/reserve 25 17:30'
+find  - find avail. days for a given hour, '/find 18:00'
+check  - check avail. with date and hour, '/check 25 17:30'
+reminder - bot saves the date and let u know when is avail., '/reminder 31 17:30'
+cancel - cancel reminder and all current actions
 
  ** Plan **
 

@@ -1,5 +1,17 @@
 module Canal
   class Payload
+    def self.get_payload_with_payment_data(data)
+      p "get_payload_with_payment_data before #{data}"
+      self.get_sample_payload.tap do |h|
+        h['price'] = data['model']['Price']
+        h['idType'] = data['model']['IdType']
+        payment_method = data['paymentMethods'].find {|p| p['name'].include?('Bono Monedero')}
+        h['idPaymentmethod'] = payment_method['id']
+        h['idResource'] = data['model']['IdResource']
+        h['idSearch'] = data['model']['IdSearch']
+      end
+    end
+
     def self.get_sample_payload
       {
         "portal": nil,

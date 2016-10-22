@@ -1,5 +1,5 @@
 module Canal
-  class ReserveAction
+  class CheckAction
     def initialize(api_handler)
       @api_handler = api_handler
       @date = nil
@@ -18,14 +18,14 @@ module Canal
         elsif args_a.count == 2
           @date = DateParser.parse_date_and_time(args_a[0], args_a[1])
           if @date
-            reply_text = "Are you sure u want me to reserve #{@date.full_date_string}? (yes/no)"
-            @state = :confirmation
+            reply_text = "Cool, checking availablity for date #{@date.full_date_string} ... "
+            msg_h = @api_handler.check_date(@date)
+            reply_text << "\n\n " + msg_h.values.first
           else
             reply_text = "Wrong format, try again"
           end
         end
       when :date
-        puts "getting date"
         date = args_a[0]
         date = DateParser.parse_date_and_time(args_a[0])
         puts "date is #{date}"
@@ -42,22 +42,12 @@ module Canal
         @date = DateParser.parse_date_and_time(@date, time)
         puts "date with time is #{@date}"
         if @date
-          reply_text = "Are you sure u want me to reserve #{@date.full_date_string}? (yes/no)"
-          @state = :confirmation
-        else
-          reply_text = "Wrong format, try again"
-        end
-      when :confirmation
-        confirmed = args_a[0]
-        if confirmed.downcase == 'yes'
-          msg_h = @api_handler.reserve_date(@date)
+          @state = :init
+          msg_h = @api_handler.check_date(@date)
           reply_text << "\n\n #{@date.full_date_string} "
           reply_text << msg_h.values.first if msg_h
-          reset_state
-          reply_text
         else
-          cancel
-          reply_text = "Ok, reserve operation cancelled"
+          reply_text = "Wrong format, try again"
         end
       end
 
@@ -67,10 +57,6 @@ module Canal
 
 
     def cancel
-      reset_state
-    end
-
-    def reset_state
       @state = :init
       @date = nil
     end
