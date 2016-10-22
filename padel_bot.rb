@@ -17,7 +17,7 @@ require_relative 'lib/telegram_bot/out_message'
 include Canal
 
 logger = Logger.new(STDOUT, Logger::DEBUG)
-PROXY_ENABLED = true
+PROXY_ENABLED = false
 
 proxy = 'http://127.0.0.1:8888' if PROXY_ENABLED
 Excon.defaults[:ssl_verify_peer] = false
