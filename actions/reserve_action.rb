@@ -6,7 +6,22 @@ module Canal
       @state = :init
     end
 
-    def handle_command(args_a=nil, reply)
+    def force_reserve(args_a, reply)
+      return {} unless args_a
+      date = DateParser.parse_date_and_time(args_a[0], args_a[1])
+      if date
+        msg_h = @api_handler.reserve_date(date)
+        reply_text = ""
+        reply_text << "\n\n #{date.full_date_string} "
+        reply_text << msg_h.values.first if msg_h
+        reset_state
+      else
+        reply_text = "Wrong format, try again"
+      end
+      {reply: reply_text, force_reply: false}
+    end
+
+    def handle_command(args_a, reply)
       return {} unless args_a && reply
       puts "args are #{args_a}"
       reply_text = ""

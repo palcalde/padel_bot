@@ -41,11 +41,13 @@ timeout_block = Proc.new {
     if date.to_date < Date.today.next_day(7)
       p "Reminder fired for date #{date}"
       date_s = date.strftime("%d-%m-%Y %H:%M")
-      reply.text = "Hey! I had a reminder date that just got available.\n\n"
-      r = action_handlers[:reserve].handle_command(date_s.split, reply)
-      reply.text << r[:reply]
-      reply.send_with(bot)
-      action_handlers[:reminder].cancel
+      reply.text = "Heyyyy! Reminder fired \o/"
+      r = action_handlers[:reserve].force_reserve(date_s.split, reply)
+      if r[:reply]
+        reply.text << r[:reply]
+        reply.send_with(bot)
+        action_handlers[:reminder].cancel
+      end
     else
       p "Reminder #{date.to_date} is still not bookable at #{Date.today.next_day(7)}"
     end
@@ -77,6 +79,7 @@ bot.get_updates_with_timeout({fail_silently: true}, timeout_block) do |message|
       pending_action = r[:force_reply] ? '/reserve' : nil
     when '/reminder'
       p "sending reminder args #{args}"
+      reply.reply_to = message
       r = action_handlers[:reminder].handle_command(args, reply)
       reply.text << r[:reply]
       pending_action = r[:force_reply] ? '/reminder' : nil
