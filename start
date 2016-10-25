@@ -1,0 +1,4 @@
+until bundle exec ruby padel_bot.rb; do
+    echo "Bot crashed with exit code $?.  Respawning.." >&2
+    sleep 1
+done
