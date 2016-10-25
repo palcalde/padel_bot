@@ -1,4 +1,13 @@
+#!/bin/bash
+
+count=0
 until bundle exec ruby padel_bot.rb; do
-    echo "Bot crashed with exit code $?.  Respawning.." >&2
-    sleep 1
+  count=$((count+1))
+  if [ $count -eq 3 ]; then
+    echo "count reached 3. Stopping bot."
+    break
+  fi
+
+  echo "Bot crashed with exit code $?.  Respawning.." >&2
+  sleep 1
 done
