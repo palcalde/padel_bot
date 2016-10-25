@@ -94,9 +94,18 @@ bot.get_updates_with_timeout({fail_silently: true}, timeout_block) do |message|
       r = action_handlers[:find].handle_command(args, reply)
       reply.text << r[:reply]
       pending_action = r[:force_reply] ? '/find' : nil
-
     when '/whowillwin'
       reply.text << "Pablo and Javi, of course!"
+    when '/whereareu'
+      case rand(20)%3
+      when 0
+        reply.text << "Don't panic.. I'm here"
+      when 1
+        reply.text << "Keep calm ok?"
+      when 2
+        reply.text << "Aquí. Cansino."
+      end
+
     else
       if action
         reply.text = "Uhmm.. dunno what u mean :/" unless !action
