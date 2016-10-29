@@ -1,10 +1,13 @@
 #!/bin/bash
 
-timestamp() {
-  date +'%Y-%m-%d_%H-%M'
-}
+count=0
+until bundle exec ruby padel_bot.rb 2> errors.txt; do
+  count=$((count+1))
+  if [ $count -eq 20 ]; then
+    echo "After 20 attempts bot couldn't connect. Stopping bot."
+    break
+  fi
 
-until bundle exec ruby padel_bot.rb 2> errors/`timestamp`.txt; do
   echo "Bot crashed with exit code $?.  Respawning.." >&2
   sleep 1
 done

@@ -2,7 +2,7 @@ class DateParser
   class << self
     # date is a string separated by /
     # time is a string separated by :
-    # Returns a Time object with date and time setted
+    # Returns a Time object with date and time set
     def parse_date_and_time(date_str, time_str = "")
       return unless date_str && time_str
       date_a = date_str.split('/')
