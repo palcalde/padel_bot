@@ -21,7 +21,7 @@ module Canal
       if args_a.count == 3
         first_team = args_a[1]
         second_team = args_a[2]
-        date = DateParser.parse_date_and_time(args_a[0])
+        date = Date.parse(args_a[0]).to_time
         p "date is #{date.date_string}"
         if date && valid_params(first_team, second_team)
           @results[date.date_string] = "#{first_team.upcase} #{second_team.upcase}"

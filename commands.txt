@@ -5,23 +5,23 @@ check  - check avail. with date and hour, '/check 25 17:30'
 reminder - bot saves the date and let u know when is avail., '/reminder 31 17:30'
 cancel - cancel reminder and all current actions
 whereareu - check if bot is alive
-results - show last month reults
 add_result - Add a result, '/add_result 29/10/2016 JP-1 RJ-2'
+show_results - Shows last 10 results by default. You can filter by month, '/show_results 02' for February
 
 --------
 
 /show_results 10 
-	29/10/2016 - AP 2 - RJ 1 
-	30/10/2016 - AP 1 - RJ 2 
-	5/11/2016 - AP 2 - RJ 0
+	29/10/2016 - AP-2 RJ-1 
+	30/10/2016 - AP-1 RJ-2 
+	5/11/2016 - AP-2 RJ-0
 
 /show_results (defaults to last 10)
-	29/10/2016 - AP 2 - RJ 1 
-	29/10/2016 - AP 1 - RJ 2 
-	29/10/2016 - AP 2 - RJ 0
-	29/10/2016 - AP 2 - RJ 1 
-	29/10/2016 - AP 1 - RJ 2 
-	29/10/2016 - AP 2 - RJ 0  
+	29/10/2016 - AP-2 RJ-1 
+	29/10/2016 - AP-1 RJ-2 
+	29/10/2016 - AP-2 RJ-0
+	29/10/2016 - AP-2 RJ-1 
+	29/10/2016 - AP-1 RJ-2 
+	29/10/2016 - AP-2 RJ-0  
 
 /add_result 29/10/2016 AP-1 RJ-2 ---> Result added!
 

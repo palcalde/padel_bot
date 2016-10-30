@@ -19,12 +19,18 @@ module Canal
       reply_text = ""
       if args_a.count == 0
         p "args are 0"
-        @results.each do |key, value|
-          reply_text << "#{key} #{value} \n\n"
+        @results.to_a.last(10).each do |item|
+          reply_text << "#{item.first} #{item[1]} \n\n"
         end
         reply_text << "No results to show" if reply_text.empty?
-      elsif args_a.count == 1
-        # month = args_a[0]
+      elsif args_a.count == 1 && month = args_a.first.to_i
+        p "month is #{month}"
+        @results.each do |key, value|
+          date = Date.parse(key)
+          if date.month == month
+            reply_text << "#{key} #{value} \n\n"
+          end
+        end
       end
 
       {reply: reply_text, force_reply: false}
