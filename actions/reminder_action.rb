@@ -1,9 +1,18 @@
 module Canal
+  FILENAME = 'reminder_date.txt'
   class ReminderAction
     def initialize(api_handler)
       @api_handler = api_handler
-      @date = nil
+      @date = saved_date
       @reply = nil
+    end
+
+    def saved_date
+      if File.file?(FILENAME)
+        date = File.read(FILENAME)
+        date_a = date.split
+        DateParser.parse_date_and_time(date_a[0], date_a[1])
+      end
     end
 
     def date
@@ -28,7 +37,8 @@ module Canal
           if date.to_date >= Date.today.next_day(7)
             @reply = reply
             @date = date
-            reply_text = "Reminder set to #{@date.full_date_string}"
+            File.open(FILENAME,"w") do |f| f.write(@date.strftime("%d-%m-%Y %H:%M")) end
+            reply_text = "Reminder set to #{@date.strftime("%d-%m-%Y %H:%M")}"
           else
             reply_text = "No reminder needed. You can already book this date, use /reserve :)"
           end
@@ -44,6 +54,7 @@ module Canal
 
     def cancel
       @date = nil
+      File.open(FILENAME,"w") do |f| f.write("") end
       @reply = nil
     end
   end
