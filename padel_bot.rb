@@ -5,8 +5,11 @@ require_relative 'actions/check_action'
 require_relative 'actions/find_action'
 require_relative 'actions/reminder_action'
 require_relative 'actions/reserve_action'
-require_relative 'network/api_handler'
+require_relative 'actions/reserve_action'
+require_relative 'actions/show_results_action'
+require_relative 'actions/add_result_action'
 require_relative 'network/network_manager'
+require_relative 'network/api_handler'
 require_relative 'parser'
 require_relative 'payload'
 require_relative 'helpers'
@@ -28,6 +31,8 @@ api_handler = ApiHandler.new(proxy: proxy)
 action_handlers = { check: CheckAction.new(api_handler),
                     reserve: ReserveAction.new(api_handler),
                     find: FindAction.new(api_handler),
+                    add_result: AddResultAction.new(api_handler),
+                    show_results: ShowResultsAction.new(api_handler),
                     reminder: ReminderAction.new(api_handler) }
 
 logger.debug "starting telegram bot"
@@ -105,7 +110,16 @@ bot.get_updates_with_timeout({fail_silently: true}, timeout_block) do |message|
       when 2
         reply.text << "Aquí. Cansino."
       end
-
+    when '/show_results'
+      p "sending search args #{args}"
+      r = action_handlers[:show_results].handle_command(args, reply)
+      reply.text << r[:reply]
+      pending_action = r[:force_reply] ? '/show_results' : nil
+    when '/add_result'
+      p "sending search args #{args}"
+      r = action_handlers[:add_result].handle_command(args, reply)
+      reply.text << r[:reply]
+      pending_action = r[:force_reply] ? '/add_result' : nil
     else
       if action
         reply.text = "Uhmm.. dunno what u mean :/" unless !action

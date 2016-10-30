@@ -27,9 +27,6 @@ module Canal
         if date = DateParser.parse_date_and_time(args_a[0], args_a[1])
           if date.to_date >= Date.today.next_day(7)
             @reply = reply
-            p "Reply reminder is #{@reply}"
-            p "Reply reminder.reply_to is #{@reply.reply_to}"
-
             @date = date
             reply_text = "Reminder set to #{@date.full_date_string}"
           else
