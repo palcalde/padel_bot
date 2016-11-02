@@ -6,9 +6,14 @@ module Canal
         h['price'] = data['model']['Price']
         h['idType'] = data['model']['IdType']
         payment_method = data['paymentMethods'].find {|p| p['name'].include?('Bono Monedero')}
-        h['idPaymentmethod'] = payment_method['id']
-        h['idResource'] = data['model']['IdResource']
-        h['idSearch'] = data['model']['IdSearch']
+        if payment_method
+          h['idPaymentmethod'] = payment_method['id']
+          h['idResource'] = data['model']['IdResource']
+          h['idSearch'] = data['model']['IdSearch']
+          return h
+        else
+          return nil
+        end
       end
     end
 

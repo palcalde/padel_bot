@@ -49,16 +49,19 @@ module Canal
       return unless date.is_a?(Time) && @cookies[AUTH_COOKIE]
       p "Triggering 'reserve' request for date .. #{date} and payment_data #{payment_data}"
       payload = Payload.get_payload_with_payment_data(payment_data)
-      payload[:date] = date.year_month_day
-      payload[:time] = date.minutes_seconds
-      encoded_query = Base64.strict_encode64(payload.to_json)
-      path = "/booking/pay"
-      query = { m: encoded_query }
-      cookie = AUTH_COOKIE + '=' + @cookies[AUTH_COOKIE]
-      res = @connection.get(headers: {'Cookie' => cookie}, path: path, query: query)
-      params = { :path => path, :query => query }
-      res.requested_url = @connection.request_uri(@connection.data.merge(params))
-      res
+      if payload
+        payload[:date] = date.year_month_day
+        payload[:time] = date.minutes_seconds
+        encoded_query = Base64.strict_encode64(payload.to_json)
+        path = "/booking/pay"
+        query = { m: encoded_query }
+        cookie = AUTH_COOKIE + '=' + @cookies[AUTH_COOKIE]
+        res = @connection.get(headers: {'Cookie' => cookie}, path: path, query: query)
+        params = { :path => path, :query => query }
+        res.requested_url = @connection.request_uri(@connection.data.merge(params))
+        res
+      end
+      nil
     end
   end
 end

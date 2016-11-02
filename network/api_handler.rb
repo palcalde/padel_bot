@@ -36,7 +36,9 @@ module Canal
         JSON.parse(payment_info).tap do |payment_h|
           if payment_h
             reserve_resp = @network_manager.reserve(date, payment_h)
-            if reserve_resp.status == 303
+            if reserve_resp.nil?
+                return {error: "\n\n Can't book, time to put more money?"}
+            elsif reserve_resp.status == 303
               return {ok:"Booked, check your email!", resp: resp}
             else
               if !payment_h['paymentMethods'].empty?
