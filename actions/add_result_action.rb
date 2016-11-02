@@ -18,7 +18,18 @@ module Canal
     def handle_command(args_a=[], reply)
       @results = get_results || Hash.new
       reply_text = ""
-      if args_a.count == 3
+      p "args_a.count #{args_a.count} arg 1 is #{args_a[1]}"
+      if args_a.count == 2 && args_a[1] == 'delete'
+        p "deleting"
+        date = Date.parse(args_a[0]).to_time
+        p "date is #{date.date_string}"
+        @results.delete(date.date_string)
+        p "results are #{@results}"
+        File.open("results.json","w") do |f|
+          f.write(@results.to_json)
+        end
+        reply_text << "Result deleted for date: #{date.date_string}"
+      elsif args_a.count == 3
         first_team = args_a[1]
         second_team = args_a[2]
         date = Date.parse(args_a[0]).to_time

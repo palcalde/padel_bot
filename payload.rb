@@ -6,6 +6,7 @@ module Canal
         h['price'] = data['model']['Price']
         h['idType'] = data['model']['IdType']
         payment_method = data['paymentMethods'].find {|p| p['name'].include?('Bono Monedero')}
+        p ""
         if payment_method
           h['idPaymentmethod'] = payment_method['id']
           h['idResource'] = data['model']['IdResource']

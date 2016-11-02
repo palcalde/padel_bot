@@ -60,8 +60,9 @@ module Canal
         params = { :path => path, :query => query }
         res.requested_url = @connection.request_uri(@connection.data.merge(params))
         res
+      else
+        nil
       end
-      nil
     end
   end
 end
