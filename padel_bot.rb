@@ -100,7 +100,12 @@ bot.get_updates_with_timeout({fail_silently: true}, timeout_block) do |message|
       reply.text << r[:reply]
       pending_action = r[:force_reply] ? '/find' : nil
     when '/whowillwin'
-      reply.text << "Pablo and Javi, of course!"
+      case rand(10)%2
+      when 0
+        reply.text << "Pablo and Javi, of course!"
+      when 1
+        reply.text << "Rodri and Jose, the best of course!"
+      end
     when '/whereareu'
       case rand(20)%3
       when 0
