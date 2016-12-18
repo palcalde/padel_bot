@@ -32,9 +32,12 @@ module Canal
       elsif args_a.count == 3
         first_team = args_a[1]
         second_team = args_a[2]
-        date = Date.parse(args_a[0]).to_time
-        p "date is #{date.date_string}"
+        begin
+          date = Date.parse(args_a[0]).to_time
+        rescue
+        end
         if date && valid_params(first_team, second_team)
+          P "date is #{date.date_string}"
           @results[date.date_string] = "#{first_team.upcase} #{second_team.upcase}"
           File.open("results.json","w") do |f|
             f.write(@results.to_json)
