@@ -21,6 +21,10 @@ module Canal
       resp
     end
 
+    def authorized?
+      @cookies[AUTH_COOKIE]
+    end
+
     def parse_cookies(resp)
       @cookies = resp[:cookies].map { |c|
         cookie = c.split(';').first.split('=')[0]

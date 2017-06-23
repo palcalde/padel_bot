@@ -30,6 +30,8 @@ module Canal
         if msg_h[:ok]
           found_str << ', ' if !found_str.empty?
           found_str << "#{date_t.full_date_string}: " + msg_h[:ok]
+        elsif msg_h[:error]
+          found_str << msg_h[:error] unless !found_str.empty?
         end
         date = date.next_day
       end

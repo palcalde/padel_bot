@@ -5,7 +5,15 @@ module Canal
     end
 
     def check_date(date)
+      p "1111"
+      return {error: "Bot not logged in"} unless @network_manager.authorized?
+
+      p "2222"
+
       return {} unless date
+
+      p "3333"
+
       if date.to_date < Date.today
           {error: "Whoops! Date should be after today"}
       else
@@ -26,6 +34,10 @@ module Canal
     end
 
     def reserve_date(date)
+      return { error: "Bot not logged in" } unless @network_manager.authorized?
+
+      return {} unless date
+
       avail = check_date(date)
       return avail unless avail[:ok]
 
